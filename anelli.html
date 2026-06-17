@@ -3,248 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Collezione Orecchini - BB Gioielli</title>
+<title>Anelli - BB Gioielli</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Lato:wght@300;400;700&display=swap');
-
 :root{
-  --coral:#FF6B6B;
-  --pink:#FB7185;
-  --gold:#FFD93D;
-  --lavender:#A78BFA;
   --navy:#1E1B4B;
-  --bg:#FFFBF0;
+  --coral:#FF6B6B;
+  --gold:#FFD93D;
+  --cream:#FFFBF0;
 }
-
-*{margin:0;padding:0;box-sizing:border-box}
 
 body{
-  font-family:'Lato',sans-serif;
-  background:linear-gradient(135deg,#FFFBF0,#FFF0F5,#F0F4FF);
-  color:var(--navy);
+margin:0;
+font-family:Arial,sans-serif;
+background:linear-gradient(135deg,#FFFBF0,#F5F0FF);
 }
 
-/* ===== HEADER STYLE HOME ===== */
+/* NAV */
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:white;
+position:sticky;
+top:0;
+z-index:10;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+nav a{
+text-decoration:none;
+color:var(--navy);
+font-weight:bold;
+}
+
+.cart{
+position:relative;
+cursor:pointer;
+font-size:20px;
+}
+
+.badge{
+position:absolute;
+top:-8px;
+right:-10px;
+background:var(--coral);
+color:white;
+font-size:12px;
+width:18px;
+height:18px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+/* HEADER */
 header{
-  padding:110px 20px;
-  text-align:center;
-  color:white;
-  background:linear-gradient(135deg,var(--navy),#312E81);
-  position:relative;
-  overflow:hidden;
-}
-
-/* glow sfondo come home */
-header::before{
-  content:'';
-  position:absolute;
-  width:600px;
-  height:600px;
-  background:radial-gradient(circle,rgba(255,217,61,0.15),transparent 70%);
-  top:-200px;
-  right:-200px;
-}
-
-header::after{
-  content:'';
-  position:absolute;
-  width:500px;
-  height:500px;
-  background:radial-gradient(circle,rgba(167,139,250,0.12),transparent 70%);
-  bottom:-200px;
-  left:-200px;
+text-align:center;
+padding:80px 20px;
+background:linear-gradient(135deg,var(--coral),#FB7185);
+color:white;
 }
 
 header h1{
-  font-family:'Playfair Display',serif;
-  font-size:3.5rem;
-  margin-bottom:10px;
+font-size:3rem;
+margin:0;
 }
 
-header p{
-  letter-spacing:0.25em;
-  text-transform:uppercase;
-  font-size:0.85rem;
-  color:rgba(255,255,255,0.7);
-}
-
-/* ===== GRID HOME STYLE ===== */
+/* GRID */
 .grid{
-  max-width:1200px;
-  margin:auto;
-  padding:70px 20px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
-  gap:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+padding:60px;
+max-width:1200px;
+margin:auto;
 }
 
-/* ===== CARD LUXURY COME HOME ===== */
 .card{
-  background:white;
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
-  transition:0.35s ease;
-  position:relative;
+background:white;
+border-radius:20px;
+padding:20px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+transition:.3s;
 }
 
 .card:hover{
-  transform:translateY(-10px);
-  box-shadow:0 25px 60px rgba(0,0,0,.15);
+transform:translateY(-8px);
 }
 
-/* top line glow come prodotti home */
-.card::before{
-  content:'';
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:4px;
-  background:linear-gradient(90deg,var(--coral),var(--gold),var(--lavender));
-}
-
-/* immagine stile home product */
-.icon{
-  height:220px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:5rem;
-  background:linear-gradient(135deg,#FFF0F5,#F0F4FF);
-  position:relative;
-}
-
-/* badge stile home */
-.badge{
-  position:absolute;
-  top:15px;
-  left:15px;
-  background:var(--coral);
-  color:white;
-  font-size:0.7rem;
-  padding:5px 12px;
-  border-radius:50px;
-  letter-spacing:0.1em;
-}
-
-/* contenuto */
-.content{
-  padding:22px;
-}
-
-h2{
-  font-family:'Playfair Display',serif;
-  font-size:1.3rem;
-  margin-bottom:6px;
-}
-
-p{
-  color:#777;
-  font-size:0.9rem;
-  line-height:1.5;
-}
-
-/* prezzo come home */
 .price{
-  margin-top:12px;
-  font-size:1.4rem;
-  font-weight:700;
-  color:var(--navy);
+font-size:1.3rem;
+font-weight:bold;
+color:var(--navy);
+margin:10px 0;
 }
 
-/* bottone stile home */
 .btn{
-  margin-top:15px;
-  display:inline-block;
-  padding:10px 18px;
-  border-radius:50px;
-  background:linear-gradient(135deg,var(--coral),var(--pink));
-  color:white;
-  text-decoration:none;
-  font-size:0.8rem;
-  letter-spacing:0.1em;
-  transition:0.3s;
-  box-shadow:0 6px 20px rgba(255,107,107,0.3);
+display:inline-block;
+padding:10px 18px;
+border:none;
+background:linear-gradient(135deg,var(--coral),var(--gold));
+color:white;
+border-radius:50px;
+cursor:pointer;
+font-weight:bold;
 }
 
-.btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 10px 30px rgba(255,107,107,0.4);
-}
-
-/* ===== BACK BUTTON HOME STYLE ===== */
 .back{
-  text-align:center;
-  padding:60px;
+text-align:center;
+padding:40px;
 }
 
 .back a{
-  text-decoration:none;
-  padding:15px 32px;
-  border-radius:50px;
-  background:linear-gradient(135deg,var(--navy),#312E81);
-  color:white;
-  font-weight:700;
-  letter-spacing:0.1em;
-  transition:0.3s;
-}
-
-.back a:hover{
-  transform:scale(1.05);
-  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+text-decoration:none;
+padding:12px 25px;
+background:var(--navy);
+color:white;
+border-radius:50px;
 }
 </style>
 </head>
 
 <body>
 
+<nav>
+<a href="index.html">← BB Gioielli</a>
+
+<div class="cart">
+🛒
+<span class="badge" id="cartCount">0</span>
+</div>
+</nav>
+
 <header>
-<h1>✨ Collezione Orecchini</h1>
+<h1>✨ Collezione Anelli</h1>
 <p>Eleganza senza tempo</p>
 </header>
 
 <section class="grid">
 
 <div class="card">
-<div class="icon">
-💍
-<div class="badge">NEW</div>
-</div>
-<div class="content">
 <h2>Anello Aurora</h2>
-<p>Diamante 0.5 carati, oro rosa 18kt</p>
+<p>Diamante 0.5 carati</p>
 <div class="price">€1.250</div>
-<a href="#" class="btn">Acquista</a>
-</div>
+<button class="btn" onclick="addToCart('Aurora',1250)">Aggiungi al carrello</button>
 </div>
 
 <div class="card">
-<div class="icon">
-💚
-<div class="badge">TOP</div>
-</div>
-<div class="content">
 <h2>Anello Verde Eden</h2>
 <p>Smeraldo colombiano AAA</p>
 <div class="price">€3.200</div>
-<a href="#" class="btn">Acquista</a>
-</div>
+<button class="btn" onclick="addToCart('Verde Eden',3200)">Aggiungi al carrello</button>
 </div>
 
 <div class="card">
-<div class="icon">
-✨
-<div class="badge">LUX</div>
-</div>
-<div class="content">
 <h2>Anello Eternity</h2>
-<p>Oro bianco e diamanti naturali</p>
+<p>Oro bianco e diamanti</p>
 <div class="price">€2.400</div>
-<a href="#" class="btn">Acquista</a>
-</div>
+<button class="btn" onclick="addToCart('Eternity',2400)">Aggiungi al carrello</button>
 </div>
 
 </section>
@@ -252,6 +171,25 @@ p{
 <div class="back">
 <a href="index.html">← Torna alla Home</a>
 </div>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function updateCart(){
+document.getElementById("cartCount").innerText = cart.length;
+localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+function addToCart(name,price){
+cart.push({name,price});
+updateCart();
+alert(name + " aggiunto al carrello 💍");
+}
+
+updateCart();
+
+</script>
 
 </body>
 </html>
