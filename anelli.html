@@ -2,219 +2,82 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Collezione Anelli - BB Gioielli</title>
+<title>Anelli - BB Gioielli</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Lato:wght@300;400;700&display=swap');
-
-:root{
-  --navy:#1E1B4B;
-  --rose:#FF6B6B;
-  --pink:#FB7185;
-  --gold:#FFD93D;
-  --bg:#faf7f5;
-}
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
 body{
-  font-family:'Lato',sans-serif;
-  background:var(--bg);
-  color:#333;
+margin:0;
+font-family:Arial,sans-serif;
+background:#fafafa;
 }
 
-/* ===== HERO ===== */
 header{
-  padding:90px 20px;
-  text-align:center;
-  color:white;
-  background:linear-gradient(135deg,var(--rose),var(--pink),#A78BFA);
-  position:relative;
-  overflow:hidden;
+padding:70px;
+text-align:center;
+background:linear-gradient(135deg,#FF6B6B,#FB7185);
+color:white;
 }
 
-header h1{
-  font-family:'Playfair Display',serif;
-  font-size:3.2rem;
-  margin-bottom:10px;
-}
-
-header p{
-  opacity:.9;
-  letter-spacing:0.2em;
-  text-transform:uppercase;
-  font-size:.85rem;
-}
-
-/* decorazione */
-header::after{
-  content:"";
-  position:absolute;
-  width:300px;
-  height:300px;
-  background:rgba(255,255,255,0.1);
-  border-radius:50%;
-  top:-100px;
-  right:-80px;
-}
-
-/* ===== GRID ===== */
 .grid{
-  max-width:1200px;
-  margin:auto;
-  padding:60px 20px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;
+padding:50px;
+max-width:1200px;
+margin:auto;
 }
 
-/* ===== CARD ===== */
 .card{
-  background:white;
-  border-radius:22px;
-  overflow:hidden;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  transition:.3s ease;
-  position:relative;
+background:white;
+border-radius:20px;
+padding:25px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 
-.card:hover{
-  transform:translateY(-10px);
-  box-shadow:0 20px 50px rgba(0,0,0,.15);
-}
-
-/* top glow */
-.card::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:5px;
-  background:linear-gradient(90deg,var(--rose),var(--gold),var(--pink));
-}
-
-/* contenuto */
-.card-content{
-  padding:25px;
-  text-align:center;
-}
-
-.icon{
-  font-size:3rem;
-  margin-bottom:10px;
-}
-
-h2{
-  font-family:'Playfair Display',serif;
-  font-size:1.4rem;
-  color:var(--navy);
-  margin-bottom:8px;
-}
-
-p{
-  color:#777;
-  font-size:.9rem;
-}
-
-/* prezzo */
 .price{
-  margin-top:15px;
-  font-size:1.4rem;
-  font-weight:700;
-  color:var(--navy);
+font-size:1.4rem;
+font-weight:bold;
+margin-top:10px;
 }
 
-/* bottone finto */
-.btn{
-  margin-top:15px;
-  display:inline-block;
-  padding:10px 18px;
-  border-radius:50px;
-  background:linear-gradient(135deg,var(--rose),var(--pink));
-  color:white;
-  text-decoration:none;
-  font-size:.8rem;
-  letter-spacing:.1em;
-  transition:.3s;
-}
-
-.btn:hover{
-  transform:scale(1.05);
-}
-
-/* ===== BACK ===== */
 .back{
-  text-align:center;
-  padding:50px;
-}
-
-.back a{
-  text-decoration:none;
-  background:var(--navy);
-  color:white;
-  padding:14px 30px;
-  border-radius:50px;
-  font-weight:600;
-  transition:.3s;
-}
-
-.back a:hover{
-  background:#2a2566;
-  transform:translateY(-3px);
+text-align:center;
+padding:40px;
 }
 </style>
 </head>
-
 <body>
 
 <header>
-<h1>✨ Collezione Anelli</h1>
+<h1>💍 Collezione Anelli</h1>
 <p>Eleganza senza tempo</p>
 </header>
 
-<section class="grid">
+<div class="grid">
 
 <div class="card">
-<div class="card-content">
-<div class="icon">💎</div>
-<h2>Bracciali Aurora</h2>
-<p>Diamante 0.5 carati, oro rosa 18kt</p>
+<h2>Anello Aurora</h2>
+<p>Diamante 0.5 carati</p>
 <div class="price">€1.250</div>
-<a href="#" class="btn">Acquista</a>
-</div>
 </div>
 
 <div class="card">
-<div class="card-content">
-<div class="icon">💚</div>
 <h2>Anello Verde Eden</h2>
 <p>Smeraldo colombiano AAA</p>
 <div class="price">€3.200</div>
-<a href="#" class="btn">Acquista</a>
-</div>
 </div>
 
 <div class="card">
-<div class="card-content">
-<div class="icon">✨</div>
 <h2>Anello Eternity</h2>
-<p>Oro bianco e diamanti naturali</p>
+<p>Oro bianco e diamanti</p>
 <div class="price">€2.400</div>
-<a href="#" class="btn">Acquista</a>
-</div>
 </div>
 
-</section>
+</div>
 
 <div class="back">
-<a href="index.html">← Torna alla Home</a>
+<a href="gioielli-bb.html">← Home</a>
 </div>
 
 </body>
