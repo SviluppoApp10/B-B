@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BB Gioielli — Lusso Senza Confini</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Lato:wght@300;400;700&display=swap');
+
+  :root {
+    --coral: #FF6B6B; --teal: #4ECDC4; --gold: #FFD93D;
+    --lavender: #A78BFA; --mint: #6EE7B7; --rose: #FB7185;
+    --navy: #1E1B4B; --cream: #FFFBF0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { overflow-x: hidden; }
+
+  /* ===== LOGO SVG ===== */
+  .logo-svg-wrap { display: inline-flex; align-items: center; }
+
+  /* ===== INTRO ===== */
+  #intro {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #0a0a0f;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    overflow: hidden;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+  #intro.hidden { opacity: 0; visibility: hidden; }
+
+  .stars { position: absolute; inset: 0; overflow: hidden; }
+  .star {
+    position: absolute; border-radius: 50%; background: white; opacity: 0;
+    animation: twinkle var(--d,3s) var(--delay,0s) infinite;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity:0; transform:scale(0.5); }
+    50% { opacity:var(--op,0.8); transform:scale(1); }
+  }
+
+  .intro-inner {
+    position: relative; z-index: 2; text-align: center;
+    animation: logoFloat 3s ease-in-out infinite;
+  }
+  @keyframes logoFloat {
+    0%,100% { transform:translateY(0); }
+    50% { transform:translateY(-12px); }
+  }
+
+  .intro-logo-big { margin-bottom: 0.5rem; }
+
+  .intro-tagline {
+    font-family: 'Lato', sans-serif; font-weight: 300;
+    letter-spacing: 0.5em; font-size: clamp(0.65rem,1.8vw,0.95rem);
+    color: rgba(255,255,255,0.55); text-transform: uppercase; margin-top: 0.8rem;
+    animation: fadeUp 1.5s 0.5s both;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(20px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+
+  .gem-ring {
+    position: relative; width: 260px; height: 260px;
+    margin: 2.5rem auto 1.5rem;
+    animation: rotateRing 20s linear infinite;
+  }
+  @keyframes rotateRing { to { transform:rotate(360deg); } }
+  .gem {
+    position: absolute; width: 14px; height: 14px; border-radius: 50%;
+    top: 50%; left: 50%; margin: -7px 0 0 -7px;
+  }
+  .center-gem {
+    position: absolute; top: 50%; left: 50%;
+    width: 60px; height: 60px; border-radius: 50%;
+    transform: translate(-50%,-50%);
+    background: radial-gradient(circle at 30% 30%, #fff, #FFD93D, #FF6B6B);
+    box-shadow: 0 0 40px rgba(255,217,61,0.8), 0 0 80px rgba(255,107,107,0.4);
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  @keyframes glow {
+    from { box-shadow:0 0 40px rgba(255,217,61,0.8),0 0 80px rgba(255,107,107,0.4); }
+    to   { box-shadow:0 0 60px rgba(255,217,61,1),0 0 120px rgba(167,139,250,0.6); }
+  }
+
+  .intro-cta {
+    font-family: 'Lato', sans-serif; font-weight: 700;
+    font-size: 0.95rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: #0a0a0f;
+    background: linear-gradient(135deg, #FFD93D, #FF6B6B, #A78BFA);
+    padding: 1.15rem 3.5rem; border: none; border-radius: 50px;
+    cursor: pointer; margin-top: 0.5rem;
+    box-shadow: 0 8px 30px rgba(255,217,61,0.4);
+    animation: fadeUp 1.5s 1s both, pulse 2s 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+  .intro-cta:hover { transform:scale(1.08); box-shadow:0 12px 40px rgba(255,107,107,0.6); }
+
+  /* ===== MAIN SITE ===== */
+  #site { display:none; }
+  #site.visible { display:block; }
+
+  /* NAV */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    padding: 0.9rem 3rem;
+    display: flex; align-items:center; justify-content:space-between;
+    background: rgba(255,251,240,0.94); backdrop-filter:blur(20px);
+    border-bottom: 1px solid rgba(255,217,61,0.2);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  }
+  .nav-links { display:flex; gap:2.5rem; list-style:none; }
+  .nav-links a {
+    font-family:'Lato',sans-serif; font-size:0.82rem;
+    letter-spacing:0.15em; text-transform:uppercase;
+    color:var(--navy); text-decoration:none; font-weight:700;
+    transition:color 0.3s; position:relative;
+  }
+  .nav-links a::after {
+    content:''; position:absolute; bottom:-4px; left:0; right:0;
+    height:2px; background:linear-gradient(90deg,#FF6B6B,#A78BFA);
+    transform:scaleX(0); transition:transform 0.3s;
+  }
+  .nav-links a:hover { color:#FF6B6B; }
+  .nav-links a:hover::after { transform:scaleX(1); }
+  .nav-icons { display:flex; gap:0.8rem; align-items:center; }
+  .nav-icon {
+    width:40px; height:40px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:1.1rem; border:none; background:transparent;
+    transition:background 0.3s,transform 0.2s; position:relative;
+  }
+  .nav-icon:hover { background:rgba(255,107,107,0.1); transform:scale(1.1); }
+  .cart-badge {
+    position:absolute; top:2px; right:2px; width:16px; height:16px; border-radius:50%;
+    background:var(--coral); color:white; font-size:0.6rem; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* HERO */
+  .hero {
+    min-height:100vh; padding:8rem 3rem 4rem;
+    background:linear-gradient(135deg,#FFFBF0 0%,#FFF0F5 45%,#F0F4FF 100%);
+    display:flex; align-items:center; position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; top:-40%; right:-15%;
+    width:700px; height:700px; border-radius:50%;
+    background:radial-gradient(circle,rgba(255,217,61,0.12) 0%,transparent 70%);
+  }
+  .hero::after {
+    content:''; position:absolute; bottom:-30%; left:-10%;
+    width:500px; height:500px; border-radius:50%;
+    background:radial-gradient(circle,rgba(167,139,250,0.1) 0%,transparent 70%);
+  }
+  .hero-content { max-width:55%; position:relative; z-index:1; }
+  .hero-badge {
+    display:inline-block; font-family:'Lato',sans-serif; font-size:0.75rem;
+    letter-spacing:0.3em; text-transform:uppercase; color:white; font-weight:700;
+    background:linear-gradient(135deg,#4ECDC4,#A78BFA);
+    padding:0.5rem 1.5rem; border-radius:50px; margin-bottom:1.5rem;
+  }
+  .hero h1 {
+    font-family:'Playfair Display',serif;
+    font-size:clamp(2.5rem,5vw,4.5rem); color:var(--navy); line-height:1.1; margin-bottom:1.5rem;
+  }
+  .hero h1 em { font-style:italic; color:#FF6B6B; }
+  .hero p {
+    font-family:'Lato',sans-serif; font-size:1.05rem; color:#555;
+    line-height:1.8; max-width:480px; margin-bottom:2.5rem; font-weight:300;
+  }
+  .hero-btns { display:flex; gap:1rem; flex-wrap:wrap; }
+  .btn-primary {
+    font-family:'Lato',sans-serif; font-weight:700; font-size:0.88rem;
+    letter-spacing:0.2em; text-transform:uppercase;
+    color:white; background:linear-gradient(135deg,#FF6B6B,#FB7185);
+    padding:1rem 2.5rem; border:none; border-radius:50px; cursor:pointer;
+    transition:transform 0.3s,box-shadow 0.3s;
+    box-shadow:0 6px 20px rgba(255,107,107,0.4);
+    text-decoration:none; display:inline-block;
+  }
+  .btn-primary:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(255,107,107,0.5); }
+  .btn-secondary {
+    font-family:'Lato',sans-serif; font-weight:700; font-size:0.88rem;
+    letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--navy); background:transparent;
+    padding:1rem 2.5rem; border:2px solid var(--navy); border-radius:50px;
+    cursor:pointer; transition:all 0.3s; text-decoration:none; display:inline-block;
+  }
+  .btn-secondary:hover { background:var(--navy); color:white; }
+  .hero-visual {
+    position:absolute; right:0; top:0; bottom:0;
+    width:45%; display:flex; align-items:center; justify-content:center;
+  }
+  .hero-img-wrap {
+    width:400px; height:480px;
+    border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+    background:linear-gradient(135deg,#FFD93D 0%,#FF6B6B 50%,#A78BFA 100%);
+    display:flex; align-items:center; justify-content:center; font-size:8rem;
+    box-shadow:0 30px 80px rgba(255,107,107,0.3),0 0 0 20px rgba(255,217,61,0.08);
+    animation:heroFloat 4s ease-in-out infinite;
+  }
+  @keyframes heroFloat {
+    0%,100%{transform:translateY(0) rotate(-2deg);}
+    50%{transform:translateY(-20px) rotate(2deg);}
+  }
+
+  /* SECTIONS */
+  .section { padding:6rem 3rem; }
+  .section-header { text-align:center; margin-bottom:4rem; }
+  .section-label {
+    font-family:'Lato',sans-serif; font-size:0.72rem;
+    letter-spacing:0.4em; text-transform:uppercase; font-weight:700; margin-bottom:1rem; display:block;
+  }
+  .section-title {
+    font-family:'Playfair Display',serif;
+    font-size:clamp(2rem,4vw,3.2rem); color:var(--navy); line-height:1.2;
+  }
+  .section-title span {
+    background:linear-gradient(135deg,#FF6B6B,#A78BFA);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+
+  /* CATEGORIE */
+  .categories { background:var(--cream); }
+  .cat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; max-width:1200px; margin:0 auto; }
+  .cat-card {
+    border-radius:24px; padding:2.5rem 1.5rem; text-align:center; cursor:pointer;
+    transition:transform 0.3s,box-shadow 0.3s;
+  }
+  .cat-card:hover { transform:translateY(-8px); box-shadow:0 20px 50px rgba(0,0,0,0.15); }
+  .cat-card:nth-child(1){background:linear-gradient(135deg,#FF6B6B,#FB7185);}
+  .cat-card:nth-child(2){background:linear-gradient(135deg,#4ECDC4,#6EE7B7);}
+  .cat-card:nth-child(3){background:linear-gradient(135deg,#A78BFA,#C4B5FD);}
+  .cat-card:nth-child(4){background:linear-gradient(135deg,#FFD93D,#FFA500);}
+  .cat-icon { font-size:3.5rem; margin-bottom:1rem; }
+  .cat-card h3 { font-family:'Playfair Display',serif; font-size:1.3rem; color:white; margin-bottom:0.4rem; }
+  .cat-card p { font-family:'Lato',sans-serif; font-size:0.85rem; color:rgba(255,255,255,0.85); }
+
+  /* PRODOTTI */
+  .products-bg { background:white; }
+  .products-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; max-width:1200px; margin:0 auto; }
+  .product-card {
+    border-radius:20px; overflow:hidden; background:var(--cream);
+    transition:transform 0.3s,box-shadow 0.3s; cursor:pointer;
+  }
+  .product-card:hover { transform:translateY(-6px); box-shadow:0 20px 50px rgba(0,0,0,0.1); }
+  .product-img {
+    height:260px; position:relative;
+    display:flex; align-items:center; justify-content:center; font-size:5rem; overflow:hidden;
+  }
+  .p-badge {
+    position:absolute; top:1rem; left:1rem;
+    font-family:'Lato',sans-serif; font-size:0.7rem; font-weight:700;
+    letter-spacing:0.15em; text-transform:uppercase; color:white; padding:0.35rem 0.9rem; border-radius:50px;
+  }
+  .wish {
+    position:absolute; top:1rem; right:1rem; width:36px; height:36px; border-radius:50%;
+    background:white; border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1rem; transition:transform 0.2s; box-shadow:0 2px 10px rgba(0,0,0,0.1);
+  }
+  .wish:hover { transform:scale(1.2); }
+  .product-info { padding:1.5rem; }
+  .product-cat { font-family:'Lato',sans-serif; font-size:0.7rem; letter-spacing:0.25em; text-transform:uppercase; font-weight:700; margin-bottom:0.4rem; }
+  .product-name { font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--navy); margin-bottom:0.4rem; line-height:1.3; }
+  .product-desc { font-family:'Lato',sans-serif; font-size:0.83rem; color:#888; line-height:1.6; margin-bottom:1rem; }
+  .product-footer { display:flex; align-items:center; justify-content:space-between; }
+  .product-price { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--navy); font-weight:700; }
+  .product-price .old { font-size:0.88rem; color:#bbb; text-decoration:line-through; font-weight:400; margin-right:0.4rem; font-family:'Lato',sans-serif; }
+  .add-cart {
+    width:44px; height:44px; border-radius:50%; border:none; cursor:pointer; font-size:1.1rem;
+    display:flex; align-items:center; justify-content:center;
+    transition:transform 0.2s,box-shadow 0.2s; color:white;
+  }
+  .add-cart:hover { transform:scale(1.15); box-shadow:0 6px 20px rgba(0,0,0,0.2); }
+
+  /* BANNER */
+  .banner {
+    background:linear-gradient(135deg,var(--navy) 0%,#312e81 100%);
+    padding:5rem 3rem; text-align:center; position:relative; overflow:hidden;
+  }
+  .banner::before {
+    content:'✦ ✦ ✦'; position:absolute; top:1.5rem; left:50%; transform:translateX(-50%);
+    color:rgba(255,217,61,0.4); letter-spacing:1rem; font-size:0.8rem;
+  }
+  .banner h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3.5rem); color:white; margin-bottom:1rem; }
+  .banner h2 em { color:var(--gold); font-style:italic; }
+  .banner p { font-family:'Lato',sans-serif; font-size:1rem; color:rgba(255,255,255,0.7); max-width:500px; margin:0 auto 2rem; line-height:1.7; }
+  .countdown { display:flex; gap:2rem; justify-content:center; margin:2rem 0; }
+  .count-box { background:rgba(255,255,255,0.08); border-radius:16px; padding:1.2rem 1.5rem; min-width:80px; border:1px solid rgba(255,255,255,0.1); }
+  .count-num { font-family:'Playfair Display',serif; font-size:2.5rem; color:var(--gold); display:block; }
+  .count-label { font-family:'Lato',sans-serif; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.5); }
+
+  /* FEATURES */
+  .features-bg { background:linear-gradient(135deg,#F0F9FF 0%,#F5F0FF 100%); }
+  .features-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; max-width:1200px; margin:0 auto; }
+  .feat { text-align:center; padding:2rem 1rem; border-radius:20px; transition:transform 0.3s; }
+  .feat:hover { transform:translateY(-5px); }
+  .feat-icon { width:70px; height:70px; border-radius:50%; margin:0 auto 1.2rem; display:flex; align-items:center; justify-content:center; font-size:1.8rem; }
+  .feat h3 { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--navy); margin-bottom:0.5rem; }
+  .feat p { font-family:'Lato',sans-serif; font-size:0.85rem; color:#777; line-height:1.6; }
+
+  /* NEWSLETTER */
+  .newsletter { background:var(--cream); text-align:center; }
+  .newsletter-box { max-width:550px; margin:0 auto; }
+  .nl-form { display:flex; margin-top:2rem; border-radius:50px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,0.1); }
+  .nl-input { flex:1; padding:1.2rem 1.8rem; border:none; outline:none; font-family:'Lato',sans-serif; font-size:0.95rem; background:white; color:var(--navy); }
+  .nl-btn { padding:1.2rem 2rem; border:none; cursor:pointer; background:linear-gradient(135deg,#FF6B6B,#A78BFA); color:white; font-family:'Lato',sans-serif; font-weight:700; font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; transition:opacity 0.3s; }
+  .nl-btn:hover { opacity:0.9; }
+
+  /* FOOTER */
+  footer { background:var(--navy); padding:4rem 3rem 2rem; color:rgba(255,255,255,0.7); }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; max-width:1200px; margin:0 auto 3rem; }
+  .footer-brand p { font-family:'Lato',sans-serif; font-size:0.88rem; line-height:1.7; margin-top:1rem; max-width:260px; }
+  .footer-socials { display:flex; gap:0.8rem; margin-top:1.5rem; }
+  .soc { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.9rem; text-decoration:none; color:white; transition:transform 0.2s; }
+  .soc:hover { transform:scale(1.2); }
+  .footer-col h4 { font-family:'Playfair Display',serif; color:white; font-size:1rem; margin-bottom:1.2rem; }
+  .footer-col ul { list-style:none; }
+  .footer-col li { margin-bottom:0.6rem; }
+  .footer-col a { font-family:'Lato',sans-serif; font-size:0.85rem; color:rgba(255,255,255,0.6); text-decoration:none; transition:color 0.2s; }
+  .footer-col a:hover { color:var(--gold); }
+  .footer-bottom { text-align:center; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.1); font-family:'Lato',sans-serif; font-size:0.8rem; color:rgba(255,255,255,0.4); }
+
+  /* CART */
+  .cart-overlay { position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.5); opacity:0; visibility:hidden; transition:all 0.3s; }
+  .cart-overlay.open { opacity:1; visibility:visible; }
+  .cart-panel { position:fixed; top:0; right:-440px; bottom:0; width:420px; background:white; z-index:201; transition:right 0.4s cubic-bezier(0.4,0,0.2,1); display:flex; flex-direction:column; box-shadow:-10px 0 40px rgba(0,0,0,0.15); }
+  .cart-overlay.open .cart-panel { right:0; }
+  .cart-head { padding:1.5rem; border-bottom:1px solid #eee; display:flex; align-items:center; justify-content:space-between; }
+  .cart-head h2 { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--navy); }
+  .cart-close { width:36px; height:36px; border-radius:50%; border:none; background:#f5f5f5; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:background 0.2s; }
+  .cart-close:hover { background:#eee; }
+  .cart-items { flex:1; overflow-y:auto; padding:1.5rem; }
+  .cart-item { display:flex; gap:1rem; margin-bottom:1.5rem; padding-bottom:1.5rem; border-bottom:1px solid #f0f0f0; }
+  .ci-img { width:70px; height:70px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:2rem; flex-shrink:0; }
+  .ci-info { flex:1; }
+  .ci-name { font-family:'Playfair Display',serif; font-size:0.95rem; color:var(--navy); }
+  .ci-price { font-family:'Lato',sans-serif; font-size:0.85rem; color:#888; margin-top:0.2rem; }
+  .ci-qty { display:flex; align-items:center; gap:0.5rem; margin-top:0.5rem; }
+  .qty-btn { width:26px; height:26px; border-radius:50%; border:1px solid #ddd; background:white; cursor:pointer; font-size:0.9rem; display:flex; align-items:center; justify-content:center; transition:background 0.2s; }
+  .qty-btn:hover { background:#f5f5f5; }
+  .qty-num { font-family:'Lato',sans-serif; font-size:0.9rem; font-weight:700; color:var(--navy); }
+  .cart-foot { padding:1.5rem; border-top:1px solid #eee; }
+  .cart-total { display:flex; justify-content:space-between; margin-bottom:1.2rem; font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--navy); }
+  .checkout-btn { width:100%; padding:1.2rem; border:none; border-radius:50px; background:linear-gradient(135deg,#FF6B6B,#A78BFA); color:white; font-family:'Lato',sans-serif; font-weight:700; font-size:1rem; letter-spacing:0.1em; cursor:pointer; transition:opacity 0.3s; }
+  .checkout-btn:hover { opacity:0.9; }
+  .cart-empty { text-align:center; padding:3rem 1rem; font-family:'Lato',sans-serif; color:#bbb; }
+  .cart-empty .ce-icon { font-size:3rem; display:block; margin-bottom:1rem; }
+
+  @media(max-width:900px){
+    .cat-grid,.products-grid,.features-grid { grid-template-columns:repeat(2,1fr); }
+    .hero-content { max-width:100%; } .hero-visual { display:none; }
+    .footer-grid { grid-template-columns:1fr 1fr; }
+    nav { padding:1rem; } .nav-links { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== INTRO ===== -->
+<div id="intro">
+  <div class="stars" id="stars"></div>
+  <div class="intro-inner">
+
+    <!-- LOGO MONOGRAMMA -->
+    <div class="intro-logo-big">
+      <svg width="320" height="160" viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gBig" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   stop-color="#FFD93D"/>
+            <stop offset="35%"  stop-color="#FF6B6B"/>
+            <stop offset="65%"  stop-color="#A78BFA"/>
+            <stop offset="100%" stop-color="#4ECDC4"/>
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- cornice arrotondata -->
+        <rect x="4" y="4" width="312" height="152" rx="22" ry="22"
+              fill="none" stroke="url(#gBig)" stroke-width="2" opacity="0.7"/>
+        <!-- B sinistra normale -->
+        <text x="52" y="118" font-family="'Playfair Display', Georgia, serif"
+              font-size="110" font-weight="700" fill="url(#gBig)" filter="url(#glow)"
+              text-anchor="middle">B</text>
+        <!-- simbolo centrale decorativo -->
+        <text x="160" y="105" font-family="'Cormorant Garamond', Georgia, serif"
+              font-size="52" font-weight="300" font-style="italic"
+              fill="url(#gBig)" text-anchor="middle" opacity="0.9">&amp;</text>
+        <!-- B destra specchiata -->
+        <text x="268" y="118" font-family="'Playfair Display', Georgia, serif"
+              font-size="110" font-weight="700" fill="url(#gBig)" filter="url(#glow)"
+              text-anchor="middle" transform="scale(-1,1) translate(-536,0)">B</text>
+      </svg>
+    </div>
+
+    <div class="intro-tagline">Gioielli &nbsp;·&nbsp; Lusso &nbsp;·&nbsp; Emozione</div>
+
+    <div class="gem-ring" id="gemRing">
+      <div class="center-gem"></div>
+    </div>
+
+    <button class="intro-cta" onclick="enterSite()">Scopri la Collezione &nbsp;✦</button>
+  </div>
+</div>
+
+<!-- ===== SITO ===== -->
+<div id="site">
+
+  <nav>
+    <!-- Logo nav compatto -->
+    <a href="index.html" style="text-decoration:none">
+      <svg width="110" height="46" viewBox="0 0 110 46" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gNav" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FF6B6B"/>
+            <stop offset="100%" stop-color="#A78BFA"/>
+          </linearGradient>
+        </defs>
+        <rect x="1" y="1" width="108" height="44" rx="10" fill="none" stroke="url(#gNav)" stroke-width="1.5" opacity="0.5"/>
+        <text x="27" y="34" font-family="'Playfair Display',Georgia,serif" font-size="34" font-weight="700" fill="url(#gNav)" text-anchor="middle">B</text>
+        <text x="55" y="30" font-family="'Cormorant Garamond',Georgia,serif" font-size="18" font-weight="300" font-style="italic" fill="url(#gNav)" text-anchor="middle">&amp;</text>
+        <text x="83" y="34" font-family="'Playfair Display',Georgia,serif" font-size="34" font-weight="700" fill="url(#gNav)" text-anchor="middle" transform="scale(-1,1) translate(-166,0)">B</text>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#collezioni">Collezioni</a></li>
+      <li><a href="#novita">Novità</a></li>
+      <li><a href="#offerte">Offerte</a></li>
+      <li><a href="#contatti">Contatti</a></li>
+    </ul>
+    <div class="nav-icons">
+      <button class="nav-icon" title="Cerca">🔍</button>
+      <button class="nav-icon" title="Wishlist">🤍</button>
+      <button class="nav-icon" id="cartBtn" title="Carrello" onclick="toggleCart()">
+        🛒<span class="cart-badge" id="cartCount">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <span class="hero-badge">✦ Nuova Collezione Estate 2026</span>
+      <h1>Ogni Gioiello<br>Racconta una<br><em>Storia d'Amore</em></h1>
+      <p>Diamanti, rubini e smeraldi selezionati a mano. Creazioni uniche che nascono dalla passione per l'arte orafa e vivono nell'eleganza di chi le indossa.</p>
+      <div class="hero-btns">
+        <a href="esplora.html" class="btn-primary">Esplora Ora</a>
+        <a href="storia.html" class="btn-secondary">La Nostra Storia</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-img-wrap">💍</div>
+    </div>
+  </section>
+
+  <!-- CATEGORIE -->
+  <section class="section categories" id="collezioni">
+    <div class="section-header">
+      <span class="section-label" style="color:#4ECDC4">Le Nostre Categorie</span>
+      <h2 class="section-title">Scegli il Tuo <span>Stile</span></h2>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card"><div class="cat-icon">💍</div><h3>Anelli</h3><p>47 creazioni</p></div>
+      <div class="cat-card"><div class="cat-icon">📿</div><h3>Collane</h3><p>63 creazioni</p></div>
+      <div class="cat-card"><div class="cat-icon">✨</div><h3>Orecchini</h3><p>81 creazioni</p></div>
+      <div class="cat-card"><div class="cat-icon">⌚</div><h3>Bracciali</h3><p>35 creazioni</p></div>
+    </div>
+  </section>
+
+  <!-- PRODOTTI -->
+  <section class="section products-bg" id="novita">
+    <div class="section-header">
+      <span class="section-label" style="color:#FF6B6B">Nuovi Arrivi</span>
+      <h2 class="section-title">Le Ultime <span>Creazioni</span></h2>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </section>
+
+  <!-- BANNER OFFERTA -->
+  <section class="banner" id="offerte">
+    <h2>Offerta <em>Speciale</em><br>Solo per Te</h2>
+    <p>Approfitta del 30% di sconto su tutta la Collezione Primavera. Offerta valida fino a esaurimento scorte.</p>
+    <div class="countdown">
+      <div class="count-box"><span class="count-num" id="cd-h">14</span><span class="count-label">Ore</span></div>
+      <div class="count-box"><span class="count-num" id="cd-m">32</span><span class="count-label">Min</span></div>
+      <div class="count-box"><span class="count-num" id="cd-s">08</span><span class="count-label">Sec</span></div>
+    </div>
+    <button class="btn-primary" style="background:linear-gradient(135deg,#FFD93D,#FFA500);color:#1E1B4B;box-shadow:0 6px 20px rgba(255,217,61,0.5)">Acquista con Sconto ✦</button>
+  </section>
+
+  <!-- GARANZIE -->
+  <section class="section features-bg">
+    <div class="features-grid">
+      <div class="feat"><div class="feat-icon" style="background:linear-gradient(135deg,#FF6B6B,#FB7185)">🚚</div><h3>Spedizione Gratuita</h3><p>Su ordini oltre €200. Consegna espressa 24h.</p></div>
+      <div class="feat"><div class="feat-icon" style="background:linear-gradient(135deg,#4ECDC4,#6EE7B7)">🔒</div><h3>Pagamento Sicuro</h3><p>Transazioni certificate SSL. Dati sempre protetti.</p></div>
+      <div class="feat"><div class="feat-icon" style="background:linear-gradient(135deg,#A78BFA,#C4B5FD)">↩️</div><h3>Reso Facile</h3><p>30 giorni per cambiare idea, rimborso completo.</p></div>
+      <div class="feat"><div class="feat-icon" style="background:linear-gradient(135deg,#FFD93D,#FFA500)">💬</div><h3>Supporto 24/7</h3><p>Il nostro team è sempre disponibile per te.</p></div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="section newsletter" id="contatti">
+    <div class="newsletter-box">
+      <span class="section-label" style="color:#A78BFA">Newsletter ✦</span>
+      <h2 class="section-title" style="font-size:2.2rem">Resta <span>Aggiornato</span></h2>
+      <p style="font-family:'Lato',sans-serif;color:#888;margin-top:0.8rem;line-height:1.7;font-size:1rem">
+        Iscriviti e ricevi in anteprima le nuove collezioni, le offerte esclusive e i segreti dell'arte orafa italiana.
+      </p>
+      <div class="nl-form">
+        <input type="email" placeholder="La tua email..." class="nl-input" id="nlEmail">
+        <button class="nl-btn" onclick="subscribeNewsletter()">Iscriviti</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <svg width="90" height="38" viewBox="0 0 110 46" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="gFt" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFD93D"/><stop offset="100%" stop-color="#FF6B6B"/></linearGradient></defs>
+          <rect x="1" y="1" width="108" height="44" rx="10" fill="none" stroke="url(#gFt)" stroke-width="1.5" opacity="0.5"/>
+          <text x="27" y="34" font-family="'Playfair Display',Georgia,serif" font-size="34" font-weight="700" fill="url(#gFt)" text-anchor="middle">B</text>
+          <text x="55" y="30" font-family="'Cormorant Garamond',Georgia,serif" font-size="18" font-weight="300" font-style="italic" fill="url(#gFt)" text-anchor="middle">&amp;</text>
+          <text x="83" y="34" font-family="'Playfair Display',Georgia,serif" font-size="34" font-weight="700" fill="url(#gFt)" text-anchor="middle" transform="scale(-1,1) translate(-166,0)">B</text>
+        </svg>
+        <p>Artigianato orafo italiano dal 1987. Ogni creazione è un'opera unica, plasmata con passione e rispetto per la tradizione.</p>
+        <div class="footer-socials">
+          <a href="#" class="soc" style="background:linear-gradient(135deg,#FF6B6B,#FB7185)">📸</a>
+          <a href="#" class="soc" style="background:linear-gradient(135deg,#4ECDC4,#6EE7B7)">🐦</a>
+          <a href="#" class="soc" style="background:linear-gradient(135deg,#A78BFA,#C4B5FD)">💼</a>
+          <a href="#" class="soc" style="background:linear-gradient(135deg,#FFD93D,#FFA500)">▶️</a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Collezioni</h4><ul><li><a href="#">Anelli</a></li><li><a href="#">Collane</a></li><li><a href="#">Orecchini</a></li><li><a href="#">Bracciali</a></li><li><a href="#">Gift Card</a></li></ul></div>
+      <div class="footer-col"><h4>Assistenza</h4><ul><li><a href="#">FAQ</a></li><li><a href="#">Spedizioni</a></li><li><a href="#">Resi</a></li><li><a href="#">Garanzia</a></li><li><a href="#">Contatti</a></li></ul></div>
+      <div class="footer-col"><h4>Azienda</h4><ul><li><a href="storia.html">Chi Siamo</a></li><li><a href="#">Atelier</a></li><li><a href="#">Press</a></li><li><a href="#">Privacy</a></li><li><a href="#">Cookie</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">© 2026 BB Gioielli — Tutti i diritti riservati · P.IVA 01234567890</div>
+  </footer>
+</div>
+
+<!-- CARRELLO -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCartOverlay(event)">
+  <div class="cart-panel">
+    <div class="cart-head"><h2>Il Tuo Carrello</h2><button class="cart-close" onclick="toggleCart()">✕</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-foot" id="cartFoot" style="display:none">
+      <div class="cart-total"><span>Totale</span><span id="cartTotal">€0</span></div>
+      <button class="checkout-btn">Procedi all'Acquisto →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* stelle */
+const starsEl = document.getElementById('stars');
+for(let i=0;i<130;i++){
+  const s=document.createElement('div'); s.className='star';
+  const sz=Math.random()*3+1;
+  s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:${Math.random()*4}s;--op:${0.4+Math.random()*0.6}`;
+  starsEl.appendChild(s);
+}
+/* gemme */
+const ring=document.getElementById('gemRing');
+['#FF6B6B','#4ECDC4','#A78BFA','#FFD93D','#6EE7B7','#FB7185','#C4B5FD','#FFA500'].forEach((c,i)=>{
+  const g=document.createElement('div'); g.className='gem';
+  g.style.cssText=`background:${c};box-shadow:0 0 10px ${c};transform:rotate(${i/8*360}deg) translateX(100px)`;
+  ring.appendChild(g);
+});
+/* entrata */
+function enterSite(){
+  const intro=document.getElementById('intro');
+  intro.classList.add('hidden');
+  document.getElementById('site').classList.add('visible');
+  setTimeout(()=>{intro.style.display='none';},900);
+}
+/* prodotti */
+const products=[
+  {id:1,name:'Anello Aurora',cat:'Anelli',emoji:'💍',desc:'Oro rosa 18kt con diamante centrale da 0.5 carati',price:1250,old:1780,badge:'Bestseller',color:'#FF6B6B',bg:'linear-gradient(135deg,#FFE8E8,#FFF0EB)'},
+  {id:2,name:'Collana Stella Marina',cat:'Collane',emoji:'⭐',desc:'Argento 925 con perle di Akoya naturali giapponesi',price:680,old:null,badge:'Nuovo',color:'#4ECDC4',bg:'linear-gradient(135deg,#E8FBF9,#EFF5FF)'},
+  {id:3,name:'Orecchini Viola',cat:'Orecchini',emoji:'💜',desc:'Ametiste naturali brasiliane incastonate in oro bianco',price:890,old:1100,badge:'-19%',color:'#A78BFA',bg:'linear-gradient(135deg,#F0EBFF,#F5EBFF)'},
+  {id:4,name:'Bracciale Sole',cat:'Bracciali',emoji:'🌟',desc:'Oro giallo 18kt con topazi imperiali e diamantini',price:540,old:null,badge:'Esclusivo',color:'#FFD93D',bg:'linear-gradient(135deg,#FFFDE8,#FFF8EB)'},
+  {id:5,name:'Anello Verde Eden',cat:'Anelli',emoji:'💚',desc:'Smeraldo colombiano AAA in montatura platino 950',price:3200,old:4100,badge:'-22%',color:'#6EE7B7',bg:'linear-gradient(135deg,#EBFFF5,#F0FFE8)'},
+  {id:6,name:'Collana Rosa Corallo',cat:'Collane',emoji:'🪸',desc:'Corallo naturale del Mediterraneo, chiusura oro 18kt',price:420,old:null,badge:'Nuovo',color:'#FB7185',bg:'linear-gradient(135deg,#FFE8F0,#FFEBED)'},
+];
+const cart={};
+function renderProducts(){
+  document.getElementById('productsGrid').innerHTML=products.map(p=>`
+    <div class="product-card">
+      <div class="product-img" style="background:${p.bg}">
+        <span style="font-size:5rem">${p.emoji}</span>
+        <span class="p-badge" style="background:${p.color}">${p.badge}</span>
+        <button class="wish" onclick="toggleWish(${p.id},this)">🤍</button>
+      </div>
+      <div class="product-info">
+        <div class="product-cat" style="color:${p.color}">${p.cat}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.desc}</div>
+        <div class="product-footer">
+          <div class="product-price">${p.old?`<span class="old">€${p.old.toLocaleString('it')}</span>`:''} €${p.price.toLocaleString('it')}</div>
+          <button class="add-cart" style="background:linear-gradient(135deg,${p.color},${p.color}bb)" onclick="addToCart(${p.id})">🛒</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function toggleWish(id,btn){btn.classList.toggle('active');btn.textContent=btn.classList.contains('active')?'❤️':'🤍';}
+function addToCart(id){cart[id]=(cart[id]||0)+1;updateBadge();renderCart();}
+function updateBadge(){document.getElementById('cartCount').textContent=Object.values(cart).reduce((a,b)=>a+b,0);}
+function renderCart(){
+  const el=document.getElementById('cartItems'),foot=document.getElementById('cartFoot');
+  const keys=Object.keys(cart).filter(k=>cart[k]>0);
+  if(!keys.length){el.innerHTML='<div class="cart-empty"><span class="ce-icon">🛒</span><p>Il carrello è vuoto</p></div>';foot.style.display='none';return;}
+  foot.style.display='block';let total=0;
+  el.innerHTML=keys.map(id=>{const p=products.find(x=>x.id==id);total+=p.price*cart[id];return`<div class="cart-item"><div class="ci-img" style="background:${p.bg}">${p.emoji}</div><div class="ci-info"><div class="ci-name">${p.name}</div><div class="ci-price">€${p.price.toLocaleString('it')}</div><div class="ci-qty"><button class="qty-btn" onclick="changeQty(${id},-1)">−</button><span class="qty-num">${cart[id]}</span><button class="qty-btn" onclick="changeQty(${id},1)">+</button></div></div></div>`;}).join('');
+  document.getElementById('cartTotal').textContent='€'+total.toLocaleString('it');
+}
+function changeQty(id,d){cart[id]=Math.max(0,(cart[id]||0)+d);updateBadge();renderCart();}
+function toggleCart(){document.getElementById('cartOverlay').classList.toggle('open');renderCart();}
+function closeCartOverlay(e){if(e.target===document.getElementById('cartOverlay'))toggleCart();}
+let secs=14*3600+32*60+8;
+setInterval(()=>{secs=Math.max(0,secs-1);document.getElementById('cd-h').textContent=String(Math.floor(secs/3600)).padStart(2,'0');document.getElementById('cd-m').textContent=String(Math.floor((secs%3600)/60)).padStart(2,'0');document.getElementById('cd-s').textContent=String(secs%60).padStart(2,'0');},1000);
+function subscribeNewsletter(){const v=document.getElementById('nlEmail').value;if(!v.includes('@')){alert('Email non valida.');return;}alert('Grazie! Sei iscritto con: '+v);document.getElementById('nlEmail').value='';}
+renderProducts();
+</script>
+</body>
+</html>

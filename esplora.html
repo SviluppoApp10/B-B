@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esplora le Collezioni - BB Gioielli</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#fafafa;
+}
+
+header{
+padding:80px 20px;
+text-align:center;
+background:linear-gradient(135deg,#1E1B4B,#312E81);
+color:white;
+}
+
+header h1{
+font-size:4rem;
+margin:0;
+}
+
+header p{
+font-size:1.1rem;
+opacity:.8;
+}
+
+.search-box{
+max-width:700px;
+margin:40px auto;
+padding:0 20px;
+}
+
+.search-box input{
+width:100%;
+padding:18px 25px;
+border:none;
+border-radius:50px;
+font-size:1rem;
+box-shadow:0 10px 25px rgba(0,0,0,.1);
+outline:none;
+}
+
+.grid{
+max-width:1200px;
+margin:auto;
+padding:20px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;
+}
+
+.card{
+background:white;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.img{
+height:250px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:6rem;
+}
+
+.card h3{
+padding:20px 20px 10px;
+margin:0;
+color:#1E1B4B;
+}
+
+.card p{
+padding:0 20px 20px;
+color:#666;
+}
+
+.price{
+padding:0 20px 20px;
+font-size:1.5rem;
+font-weight:bold;
+color:#1E1B4B;
+}
+
+.btn{
+display:inline-block;
+margin:0 20px 20px;
+padding:12px 25px;
+background:#FF6B6B;
+color:white;
+text-decoration:none;
+border-radius:50px;
+transition:.3s;
+}
+
+.btn:hover{
+background:#e85b5b;
+}
+
+.back{
+text-align:center;
+padding:40px;
+}
+
+.back a{
+text-decoration:none;
+background:#1E1B4B;
+color:white;
+padding:15px 30px;
+border-radius:50px;
+}
+
+.not-found{
+grid-column:1/-1;
+text-align:center;
+font-size:1.3rem;
+color:#999;
+padding:50px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Esplora le Collezioni</h1>
+<p>Le nostre creazioni più esclusive</p>
+</header>
+
+<div class="search-box">
+<input
+type="search"
+id="searchInput"
+placeholder="🔍 Cerca anelli, collane, diamanti, smeraldi..."
+>
+</div>
+
+<section class="grid" id="productsGrid"></section>
+
+<div class="back">
+<a href="index.html">← Torna alla Home</a>
+</div>
+
+<script>
+
+const products = [
+
+{
+name:"Anello Aurora",
+emoji:"💍",
+desc:"Diamante centrale da 0.5 carati",
+price:1250,
+bg:"#FFF0F0"
+},
+
+{
+name:"Collana Stella Marina",
+emoji:"📿",
+desc:"Perle Akoya naturali giapponesi",
+price:680,
+bg:"#F0FFF9"
+},
+
+{
+name:"Orecchini Viola",
+emoji:"✨",
+desc:"Ametiste naturali brasiliane",
+price:890,
+bg:"#F5F0FF"
+},
+
+{
+name:"Bracciale Sole",
+emoji:"⌚",
+desc:"Oro 18kt e topazi imperiali",
+price:540,
+bg:"#FFF9E8"
+},
+
+{
+name:"Anello Verde Eden",
+emoji:"💚",
+desc:"Smeraldo colombiano AAA",
+price:3200,
+bg:"#EEFFF5"
+},
+
+{
+name:"Collana Rosa Corallo",
+emoji:"🪸",
+desc:"Corallo naturale del Mediterraneo",
+price:420,
+bg:"#FFF0F5"
+}
+
+];
+
+function renderProducts(list){
+
+const grid=document.getElementById("productsGrid");
+
+if(list.length===0){
+
+grid.innerHTML=`
+<div class="not-found">
+Nessun prodotto trovato
+</div>
+`;
+
+return;
+}
+
+grid.innerHTML=list.map(product=>`
+
+<div class="card">
+
+<div class="img" style="background:${product.bg}">
+${product.emoji}
+</div>
+
+<h3>${product.name}</h3>
+
+<p>${product.desc}</p>
+
+<div class="price">
+€${product.price.toLocaleString('it-IT')}
+</div>
+
+<a href="#" class="btn">
+Acquista
+</a>
+
+</div>
+
+`).join('');
+
+}
+
+renderProducts(products);
+
+document
+.getElementById("searchInput")
+.addEventListener("input", function(){
+
+const value=this.value.toLowerCase().trim();
+
+const filtered=products.filter(product=>
+
+product.name.toLowerCase().includes(value) ||
+product.desc.toLowerCase().includes(value)
+
+);
+
+renderProducts(filtered);
+
+});
+
+</script>
+
+</body>
+</html>
