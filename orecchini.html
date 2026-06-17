@@ -10,164 +10,191 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Lato:wght@300;400;700&display=swap');
 
 :root{
-  --navy:#1E1B4B;
-  --rose:#FF6B6B;
+  --coral:#FF6B6B;
   --pink:#FB7185;
   --gold:#FFD93D;
-  --bg:#faf7f5;
+  --lavender:#A78BFA;
+  --navy:#1E1B4B;
+  --bg:#FFFBF0;
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
 body{
   font-family:'Lato',sans-serif;
-  background:var(--bg);
-  color:#333;
+  background:linear-gradient(135deg,#FFFBF0,#FFF0F5,#F0F4FF);
+  color:var(--navy);
 }
 
-/* ===== HERO ===== */
+/* ===== HEADER STYLE HOME ===== */
 header{
-  padding:90px 20px;
+  padding:110px 20px;
   text-align:center;
   color:white;
-  background:linear-gradient(135deg,var(--rose),var(--pink),#A78BFA);
+  background:linear-gradient(135deg,var(--navy),#312E81);
   position:relative;
   overflow:hidden;
 }
 
+/* glow sfondo come home */
+header::before{
+  content:'';
+  position:absolute;
+  width:600px;
+  height:600px;
+  background:radial-gradient(circle,rgba(255,217,61,0.15),transparent 70%);
+  top:-200px;
+  right:-200px;
+}
+
+header::after{
+  content:'';
+  position:absolute;
+  width:500px;
+  height:500px;
+  background:radial-gradient(circle,rgba(167,139,250,0.12),transparent 70%);
+  bottom:-200px;
+  left:-200px;
+}
+
 header h1{
   font-family:'Playfair Display',serif;
-  font-size:3.2rem;
+  font-size:3.5rem;
   margin-bottom:10px;
 }
 
 header p{
-  opacity:.9;
-  letter-spacing:0.2em;
+  letter-spacing:0.25em;
   text-transform:uppercase;
-  font-size:.85rem;
+  font-size:0.85rem;
+  color:rgba(255,255,255,0.7);
 }
 
-/* decorazione */
-header::after{
-  content:"";
-  position:absolute;
-  width:300px;
-  height:300px;
-  background:rgba(255,255,255,0.1);
-  border-radius:50%;
-  top:-100px;
-  right:-80px;
-}
-
-/* ===== GRID ===== */
+/* ===== GRID HOME STYLE ===== */
 .grid{
   max-width:1200px;
   margin:auto;
-  padding:60px 20px;
+  padding:70px 20px;
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
   gap:30px;
 }
 
-/* ===== CARD ===== */
+/* ===== CARD LUXURY COME HOME ===== */
 .card{
   background:white;
-  border-radius:22px;
+  border-radius:20px;
   overflow:hidden;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  transition:.3s ease;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  transition:0.35s ease;
   position:relative;
 }
 
 .card:hover{
   transform:translateY(-10px);
-  box-shadow:0 20px 50px rgba(0,0,0,.15);
+  box-shadow:0 25px 60px rgba(0,0,0,.15);
 }
 
-/* top glow */
+/* top line glow come prodotti home */
 .card::before{
-  content:"";
+  content:'';
   position:absolute;
   top:0;
   left:0;
   width:100%;
-  height:5px;
-  background:linear-gradient(90deg,var(--rose),var(--gold),var(--pink));
+  height:4px;
+  background:linear-gradient(90deg,var(--coral),var(--gold),var(--lavender));
+}
+
+/* immagine stile home product */
+.icon{
+  height:220px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:5rem;
+  background:linear-gradient(135deg,#FFF0F5,#F0F4FF);
+  position:relative;
+}
+
+/* badge stile home */
+.badge{
+  position:absolute;
+  top:15px;
+  left:15px;
+  background:var(--coral);
+  color:white;
+  font-size:0.7rem;
+  padding:5px 12px;
+  border-radius:50px;
+  letter-spacing:0.1em;
 }
 
 /* contenuto */
-.card-content{
-  padding:25px;
-  text-align:center;
-}
-
-.icon{
-  font-size:3rem;
-  margin-bottom:10px;
+.content{
+  padding:22px;
 }
 
 h2{
   font-family:'Playfair Display',serif;
-  font-size:1.4rem;
-  color:var(--navy);
-  margin-bottom:8px;
+  font-size:1.3rem;
+  margin-bottom:6px;
 }
 
 p{
   color:#777;
-  font-size:.9rem;
+  font-size:0.9rem;
+  line-height:1.5;
 }
 
-/* prezzo */
+/* prezzo come home */
 .price{
-  margin-top:15px;
+  margin-top:12px;
   font-size:1.4rem;
   font-weight:700;
   color:var(--navy);
 }
 
-/* bottone finto */
+/* bottone stile home */
 .btn{
   margin-top:15px;
   display:inline-block;
   padding:10px 18px;
   border-radius:50px;
-  background:linear-gradient(135deg,var(--rose),var(--pink));
+  background:linear-gradient(135deg,var(--coral),var(--pink));
   color:white;
   text-decoration:none;
-  font-size:.8rem;
-  letter-spacing:.1em;
-  transition:.3s;
+  font-size:0.8rem;
+  letter-spacing:0.1em;
+  transition:0.3s;
+  box-shadow:0 6px 20px rgba(255,107,107,0.3);
 }
 
 .btn:hover{
-  transform:scale(1.05);
+  transform:translateY(-2px);
+  box-shadow:0 10px 30px rgba(255,107,107,0.4);
 }
 
-/* ===== BACK ===== */
+/* ===== BACK BUTTON HOME STYLE ===== */
 .back{
   text-align:center;
-  padding:50px;
+  padding:60px;
 }
 
 .back a{
   text-decoration:none;
-  background:var(--navy);
-  color:white;
-  padding:14px 30px;
+  padding:15px 32px;
   border-radius:50px;
-  font-weight:600;
-  transition:.3s;
+  background:linear-gradient(135deg,var(--navy),#312E81);
+  color:white;
+  font-weight:700;
+  letter-spacing:0.1em;
+  transition:0.3s;
 }
 
 .back a:hover{
-  background:#2a2566;
-  transform:translateY(-3px);
+  transform:scale(1.05);
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
 </style>
 </head>
@@ -182,8 +209,11 @@ p{
 <section class="grid">
 
 <div class="card">
-<div class="card-content">
-<div class="icon">💎</div>
+<div class="icon">
+💍
+<div class="badge">NEW</div>
+</div>
+<div class="content">
 <h2>Anello Aurora</h2>
 <p>Diamante 0.5 carati, oro rosa 18kt</p>
 <div class="price">€1.250</div>
@@ -192,8 +222,11 @@ p{
 </div>
 
 <div class="card">
-<div class="card-content">
-<div class="icon">💚</div>
+<div class="icon">
+💚
+<div class="badge">TOP</div>
+</div>
+<div class="content">
 <h2>Anello Verde Eden</h2>
 <p>Smeraldo colombiano AAA</p>
 <div class="price">€3.200</div>
@@ -202,8 +235,11 @@ p{
 </div>
 
 <div class="card">
-<div class="card-content">
-<div class="icon">✨</div>
+<div class="icon">
+✨
+<div class="badge">LUX</div>
+</div>
+<div class="content">
 <h2>Anello Eternity</h2>
 <p>Oro bianco e diamanti naturali</p>
 <div class="price">€2.400</div>
